@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pri.dao.TradeCentreMapper" >
+  <resultMap id="BaseResultMap" type="com.pri.entity.TradeCentre" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="trade_id" property="tradeId" jdbcType="INTEGER" />
+    <result column="relevance_id" property="relevanceId" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+      <result column="wx_user_id" property="WxUserId" jdbcType="INTEGER" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, trade_id, relevance_id, type, createdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_centre
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <!-- 根据行业主键和类型，查询关联表id集合 -->
+    <select id="selectRelevanceIdList" resultType="java.lang.Integer">
+        select distinct  relevance_id from trade_centre where type = #{typ} and trade_id in
+        <foreach collection="tredeIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <!-- 根据类型和关联表id，查询数据中已经存在的行业主键集合 -->
+    <select id="selectTradeIdListByTypeAndRelevanceId" resultType="string">
+        select distinct trade_id from trade_centre  where type = #{typ} and relevance_id = #{relevanceId}
+    </select>
+    <!-- 根据微信用户主键，获取用户全部的行业 -->
+    <select id="getTradeIdListByWxUserId" resultType="java.lang.Integer">
+        select distinct trade_id from trade_centre where wx_user_id=#{WxUserId}
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trade_centre
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <!--批量删除数据，根据类型、关联表id、行业id-->
+    <delete id="deleteByTypeAndRelevanceIdAndTradeId" >
+        delete from trade_centre where type = #{typ,jdbcType=INTEGER} and relevance_id = #{relevanceId,jdbcType=INTEGER}
+        and trade_id in
+        <foreach collection="tradeIdList" item="item" index="index" open="(" close=")" separator=",">
+            #{item,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+  <insert id="insert" parameterType="com.pri.entity.TradeCentre" >
+    insert into trade_centre (id, trade_id, relevance_id, 
+      type, createdate)
+    values (#{id,jdbcType=INTEGER}, #{tradeId,jdbcType=INTEGER}, #{relevanceId,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP})
+  </insert>
+    <!-- 根据关联表主键和类型，删除相关的数据 -->
+    <delete id="deleteByRelevanceIdAndType" parameterType="com.pri.entity.TradeCentre">
+        delete from trade_centre
+        where type = #{type,jdbcType=INTEGER} and relevanceId = #{relevanceId,jdbcType=INTEGER}
+    </delete>
+    <!-- 批量插入数据 -->
+    <insert id="insetTradeCentreList" parameterType="java.util.List">
+        insert into trade_centre (trade_id,relevance_id,type,wx_user_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.tradeId},#{item.relevanceId},#{item.type},#{item.WxUserId})
+        </foreach>
+    </insert>
+  <insert id="insertSelective" parameterType="com.pri.entity.TradeCentre" >
+    insert into trade_centre
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tradeId != null" >
+        trade_id,
+      </if>
+      <if test="relevanceId != null" >
+        relevance_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tradeId != null" >
+        #{tradeId,jdbcType=INTEGER},
+      </if>
+      <if test="relevanceId != null" >
+        #{relevanceId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pri.entity.TradeCentre" >
+    update trade_centre
+    <set >
+      <if test="tradeId != null" >
+        trade_id = #{tradeId,jdbcType=INTEGER},
+      </if>
+      <if test="relevanceId != null" >
+        relevance_id = #{relevanceId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pri.entity.TradeCentre" >
+    update trade_centre
+    set trade_id = #{tradeId,jdbcType=INTEGER},
+      relevance_id = #{relevanceId,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pri.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.pri.entity.News" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="nid" property="nid" jdbcType="VARCHAR" />
+    <result column="owner_id" property="ownerId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="video" property="video" jdbcType="VARCHAR" />
+    <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="audit" property="audit" jdbcType="INTEGER" />
+    <result column="auditor" property="auditor" jdbcType="INTEGER" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pri.entity.News" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, nid, owner_id, title, img, video, comment_num, like_num, collect_num, type, audit, 
+    auditor, createdate
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+    <!-- 根据行业主键查询资讯主键集合 -->
+    <select id="selectNewsIdListByTradeList" parameterType="java.util.List" resultType="java.lang.Integer">
+        select distinct news_id from trade_news where state=1 and  trade_id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <!-- 根据资讯主键集合查询资讯集合-->
+    <select id="selectNewsListByIds" parameterType="java.util.List" resultType="com.pri.entity.News">
+        select * from news where state=1 and id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!-- 根据条件查询资讯集合 -->
+    <select id="selectNewsListByCondition" parameterType="com.pri.entity.News" resultType="com.pri.entity.News">
+        select * from news n where n.state = 1
+            <if test="nid !=null and nid!=''">
+                and n.nid = #{nid}
+            </if>
+            <if test="title !=null and title!=''">
+                and (n.title like '%${title}%' or n.content like '%${title}%' )
+            </if>
+            <if test="ownerId !=null and ownerId!=''">
+                and n.owner_id = #{ownerId}
+            </if>
+            <if test="ids !=null and ids.size>0">
+                and n.id in
+                <foreach collection="ids" index="index" item="item"  open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+    </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <!--根据主键逻辑删除-->
+    <update id="deleteLogicByid" parameterType="java.lang.Integer">
+        update news set state=0 where id = #{id,jdbcType=INTEGER}
+    </update>
+  <insert id="insert" parameterType="com.pri.entity.News" useGeneratedKeys="true" keyProperty="id">
+    insert into news (id, nid, owner_id, 
+      title, img, video, 
+      comment_num, like_num, collect_num, 
+      type, audit, auditor, 
+      createdate, content)
+    values (#{id,jdbcType=INTEGER}, #{nid,jdbcType=VARCHAR}, #{ownerId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{video,jdbcType=VARCHAR}, 
+      #{commentNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, #{collectNum,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{audit,jdbcType=INTEGER}, #{auditor,jdbcType=INTEGER}, 
+      #{createdate,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pri.entity.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="nid != null" >
+        nid,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="video != null" >
+        video,
+      </if>
+      <if test="commentNum != null" >
+        comment_num,
+      </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
+      <if test="collectNum != null" >
+        collect_num,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="audit != null" >
+        audit,
+      </if>
+      <if test="auditor != null" >
+        auditor,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nid != null" >
+        #{nid,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null" >
+        #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=INTEGER},
+      </if>
+      <if test="auditor != null" >
+        #{auditor,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pri.entity.News" >
+    update news
+    <set >
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="video != null" >
+        video = #{video,jdbcType=VARCHAR},
+      </if>
+      <if test="commentNum != null" >
+        comment_num = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="collectNum != null" >
+        collect_num = #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        audit = #{audit,jdbcType=INTEGER},
+      </if>
+      <if test="auditor != null" >
+        auditor = #{auditor,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pri.entity.News" >
+    update news
+    set nid = #{nid,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      audit = #{audit,jdbcType=INTEGER},
+      auditor = #{auditor,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pri.entity.News" >
+    update news
+    set nid = #{nid,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      video = #{video,jdbcType=VARCHAR},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      audit = #{audit,jdbcType=INTEGER},
+      auditor = #{auditor,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

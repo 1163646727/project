@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pri.dao.CardMapper" >
+  <resultMap id="BaseResultMap" type="com.pri.entity.Card" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="nid" property="nid" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="company" property="company" jdbcType="VARCHAR" />
+    <result column="position" property="position" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="industry_id" property="industryId" jdbcType="VARCHAR" />
+    <result column="industry" property="industry" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="def" property="def" jdbcType="INTEGER" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, nid, user_id, name, email, mobile, phone, company_id, company, position, address, 
+    role, industry_id, industry, state, def, createdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from card
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+    <!-- 根据用户主键，查询名片集合 -->
+    <select id="selectByUserId" parameterType="java.lang.Integer" resultType="com.pri.entity.Card">
+        select * from card where state = 1 and user_id = #{userId,jdbcType=INTEGER}
+    </select>
+    <!-- 根据主键，逻辑删除 -->
+    <update id="deleteById" parameterType="java.lang.Integer">
+        update card set state=0 where id = #{id,jdbcType=INTEGER}
+    </update>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from card
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pri.entity.Card" >
+    insert into card (id, nid, user_id, 
+      name, email, mobile, 
+      phone, company_id, company, 
+      position, address, role, 
+      industry_id, industry, state, 
+      def, createdate)
+    values (#{id,jdbcType=INTEGER}, #{nid,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER}, #{company,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, 
+      #{industryId,jdbcType=VARCHAR}, #{industry,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{def,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pri.entity.Card" >
+    insert into card
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="nid != null" >
+        nid,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="company != null" >
+        company,
+      </if>
+      <if test="position != null" >
+        position,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="industryId != null" >
+        industry_id,
+      </if>
+      <if test="industry != null" >
+        industry,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="def != null" >
+        def,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nid != null" >
+        #{nid,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="industryId != null" >
+        #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        #{industry,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="def != null" >
+        #{def,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pri.entity.Card" >
+    update card
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="company != null" >
+        company = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null" >
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="industryId != null" >
+        industry_id = #{industryId,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null" >
+        industry = #{industry,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="def != null" >
+        def = #{def,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pri.entity.Card" >
+    update card
+    set nid = #{nid,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=INTEGER},
+      company = #{company,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      role = #{role,jdbcType=INTEGER},
+      industry_id = #{industryId,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      def = #{def,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

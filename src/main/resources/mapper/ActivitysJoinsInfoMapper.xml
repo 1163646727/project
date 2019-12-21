@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pri.dao.ActivitysJoinsInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pri.entity.ActivitysJoinsInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="activity_id" property="activityId" jdbcType="INTEGER" />
+    <result column="joiner_id" property="joinerId" jdbcType="INTEGER" />
+    <result column="audit" property="audit" jdbcType="INTEGER" />
+    <result column="audit_type" property="auditType" jdbcType="INTEGER" />
+    <result column="auditor_id" property="auditorId" jdbcType="INTEGER" />
+    <result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, activity_id, joiner_id, audit, audit_type, auditor_id, createdate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from activitys_joins_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from activitys_joins_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.pri.entity.ActivitysJoinsInfo" >
+    insert into activitys_joins_info (id, activity_id, joiner_id, 
+      audit, audit_type, auditor_id, 
+      createdate)
+    values (#{id,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{joinerId,jdbcType=INTEGER}, 
+      #{audit,jdbcType=INTEGER}, #{auditType,jdbcType=INTEGER}, #{auditorId,jdbcType=INTEGER}, 
+      #{createdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pri.entity.ActivitysJoinsInfo" >
+    insert into activitys_joins_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="activityId != null" >
+        activity_id,
+      </if>
+      <if test="joinerId != null" >
+        joiner_id,
+      </if>
+      <if test="audit != null" >
+        audit,
+      </if>
+      <if test="auditType != null" >
+        audit_type,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+      <if test="createdate != null" >
+        createdate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="joinerId != null" >
+        #{joinerId,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        #{audit,jdbcType=INTEGER},
+      </if>
+      <if test="auditType != null" >
+        #{auditType,jdbcType=INTEGER},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pri.entity.ActivitysJoinsInfo" >
+    update activitys_joins_info
+    <set >
+      <if test="activityId != null" >
+        activity_id = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="joinerId != null" >
+        joiner_id = #{joinerId,jdbcType=INTEGER},
+      </if>
+      <if test="audit != null" >
+        audit = #{audit,jdbcType=INTEGER},
+      </if>
+      <if test="auditType != null" >
+        audit_type = #{auditType,jdbcType=INTEGER},
+      </if>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null" >
+        createdate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pri.entity.ActivitysJoinsInfo" >
+    update activitys_joins_info
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      joiner_id = #{joinerId,jdbcType=INTEGER},
+      audit = #{audit,jdbcType=INTEGER},
+      audit_type = #{auditType,jdbcType=INTEGER},
+      auditor_id = #{auditorId,jdbcType=INTEGER},
+      createdate = #{createdate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
