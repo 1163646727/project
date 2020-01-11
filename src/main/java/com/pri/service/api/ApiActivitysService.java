@@ -1,6 +1,6 @@
 package com.pri.service.api;
 
-import com.pri.dao.ActivitysMapper;
+import com.pri.mapper.ActivitysMapper;
 import com.pri.entity.Activitys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

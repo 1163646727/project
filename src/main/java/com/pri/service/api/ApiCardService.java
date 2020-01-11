@@ -1,6 +1,6 @@
 package com.pri.service.api;
 
-import com.pri.dao.CardMapper;
+import com.pri.mapper.CardMapper;
 import com.pri.entity.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

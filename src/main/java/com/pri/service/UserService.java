@@ -1,9 +1,8 @@
 package com.pri.service;
 
-import com.pri.dao.WxUserMapper;
+import com.pri.mapper.WxUserMapper;
 import com.pri.entity.TestUser;
 import com.pri.entity.WxUser;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
 package com.pri.service;
 
-import com.pri.dao.SysUserMapper;
-import com.pri.entity.ResultVo;
+import com.pri.mapper.SysUserMapper;
 import com.pri.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.pri.service.api;
 
-import com.pri.dao.ProjectMapper;
+import com.pri.mapper.ProjectMapper;
 import com.pri.entity.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

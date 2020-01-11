@@ -1,4 +1,4 @@
-package com.pri.dao;
+package com.pri.mapper;
 
 import com.pri.entity.TradeCentre;
 import org.apache.ibatis.annotations.Param;

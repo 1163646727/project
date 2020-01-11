@@ -13,7 +13,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * version 1.00 2019年3月28日
  * author ChenQi
  */
-@MapperScan(basePackages = "com.pri.dao")
+@MapperScan(basePackages = {"com.pri.mapper","com.pri.dao"})
 @SpringBootApplication
 public class App extends SpringBootServletInitializer {
 

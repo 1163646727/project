@@ -1,6 +1,6 @@
 package com.pri.service.api;
 
-import com.pri.dao.TradeCentreMapper;
+import com.pri.mapper.TradeCentreMapper;
 import com.pri.entity.TradeCentre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,6 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @ClassName: ApiTradeCentreService
