@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -168,6 +169,30 @@ public class SysTest {
         testUsers.add(testUser3);
         int i = userService.testAddUserListOrIgnore(testUsers);
         System.out.println(i);
+    }
+
+    /**
+     * methodName: deleteLoginById <BR>
+     * description: 测试xml和注解这两种方式生成sql语句的效率<BR>
+     * remark: 注解版效率高些，打印结果如下<BR>
+     *     xml动态生成sql耗时：352<BR>
+     *     注解动态生成sql耗时：31<BR>
+     * param:  <BR>
+     * return: void <BR>
+     * author: ChenQi <BR>
+     * createDate: 2020-04-14 14:33 <BR>
+     */
+    @Test
+    public void deleteLoginById(){
+        Integer id = 11;
+        Long start = System.currentTimeMillis();
+        userService.deleteLoginById(id);
+        Long end = System.currentTimeMillis();
+        System.out.println("xml动态生成sql耗时："+(end-start));
+        start = System.currentTimeMillis();
+        userService.deleteLoginById_2(id);
+        end = System.currentTimeMillis();
+        System.out.println("注解动态生成sql耗时："+(end-start));
     }
 
 

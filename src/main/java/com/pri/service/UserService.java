@@ -1,8 +1,12 @@
 package com.pri.service;
 
-import com.pri.mapper.WxUserMapper;
+import com.pri.dao.WxUserMapper;
 import com.pri.entity.TestUser;
 import com.pri.entity.WxUser;
+import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +56,20 @@ public class UserService {
      */
     public int deleteLoginById(Integer id){
         return wxUserMapper.deleteLoginById( id );
+    }
+
+    /**
+     * methodName: deleteLoginById_2 <BR>
+     * description: 根据主键进行逻辑删除 <BR>
+     * remark: 注解版<BR>
+     * param: id <BR>
+     * return: void <BR>
+     * author: ChenQi <BR>
+     * createDate: 2020-04-14 14:33 <BR>
+     */
+    @Update("update wx_user set state = 0 where id = #{id}")
+    public void deleteLoginById_2(Integer id){
+        wxUserMapper.deleteLoginById_2(id);
     }
 
     /**
