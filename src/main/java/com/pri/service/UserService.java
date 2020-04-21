@@ -1,8 +1,8 @@
 package com.pri.service;
 
-import com.pri.dao.WxUserMapper;
 import com.pri.entity.TestUser;
 import com.pri.entity.WxUser;
+import com.pri.mapper.WxUserMapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;

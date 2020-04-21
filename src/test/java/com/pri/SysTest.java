@@ -6,14 +6,17 @@ import com.pri.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import redis.clients.jedis.Jedis;
 
 /**
  * @ClassName: SysTest
@@ -67,6 +70,58 @@ public class SysTest {
         Set<String> resultSet =stringRedisTemplate.opsForSet().members("set1");
         System.out.println("resultSet:"+resultSet);
         //stringRedisTemplate.expire(  )
+    }
+
+    /**
+     * methodName: redisSetStringTest <BR>
+     * description: 测试并发操作redis <BR>
+     * remark: <BR>
+     * param:  <BR>
+     * return: void <BR>
+     * author: ChenQi <BR>
+     * createDate: 2020-04-21 16:23 <BR>
+     */
+    @Test
+    public void redisSetStringTest(){
+        System.out.println("主线程开始...");
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+        for (int i=0;i<10;i++) {
+            final int temp = i;
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(100);
+                        redisTemplate.opsForSet().add("test","test"+temp);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                    System.out.println(Thread.currentThread().getName() + ",i:" + temp);
+                }
+            });
+        }
+        // 主线程等待线程池 ChenQi;
+        executorService.shutdown();
+        try {
+            // awaitTermination返回false即超时会继续循环，
+            // 返回true即线程池中的线程执行完成主线程跳出循环往下执行，每隔2秒循环一次
+            while (!executorService.awaitTermination(2, TimeUnit.SECONDS));
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("主线程结束...");
+    }
+
+    @Test
+    public void redisSetStringTest2(){
+        Jedis jedis =new Jedis("127.0.0.1",6379);
+        System.out.println("redis连接成功");
+        System.out.println(jedis.ping());
+
+        jedis.del("test");
+        jedis.set("test","test");
+        jedis.set("test","test2");
     }
 
     @Test
