@@ -1,12 +1,12 @@
 package com.pri;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pri.entity.SysUser;
 import com.pri.entity.TestUser;
 import com.pri.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
 
 /**
  * @ClassName: SysTest
@@ -59,6 +60,41 @@ public class SysTest {
         sysUser.setNid("2");
        // SysUser sys = sysService.selectByNameAndPassword(sysUser);
        // System.out.println(sys);
+    }
+
+    /**
+     * methodName: redisTransactionTest <BR>
+     * description: redis事务测试<BR>
+     * remark: <BR>
+     * param:  <BR>
+     * return: void <BR>
+     * author: ChenQi <BR>
+     * createDate: 2020-07-21 15:13 <BR>
+     */
+    @Test
+    public void redisTransactionTest(){
+        Jedis jedis = new Jedis("localhost", 6379);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("hello", "world");
+        jsonObject.put("name", "xxx");
+        String result = jsonObject.toJSONString();
+
+        // 开启事务
+        Transaction multi = jedis.multi();
+
+        try {
+            multi.set("user1", result);
+            int i = 1 / 0; // 模拟异常
+            multi.set("user2", result);
+            multi.exec(); // 执行事务
+        } catch (Exception e) {
+            multi.discard(); // 放弃事务
+            e.printStackTrace();
+        } finally {
+            System.out.println(jedis.get("user1"));
+            System.out.println(jedis.get("user1"));
+            jedis.close(); // 关闭链接
+        }
     }
 
     @Test
