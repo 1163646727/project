@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pri.entity.SysUser;
 import com.pri.entity.TestUser;
 import com.pri.service.UserService;
+import com.pri.service.test.RedisService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,12 @@ public class SysTest {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisService redisService;
+
+    @Autowired
+    private StringRedisTemplate template;
 
     /**
      *@MethodName:  loginTest
@@ -95,6 +102,20 @@ public class SysTest {
             System.out.println(jedis.get("user1"));
             jedis.close(); // 关闭链接
         }
+    }
+
+    /**
+     * methodName: redisTransactionTest2 <BR>
+     * description: springboot 集成redis事务测试<BR>
+     * remark: <BR>
+     * param:  <BR>
+     * return: void <BR>
+     * author: ChenQi <BR>
+     * createDate: 2020-07-21 18:58 <BR>
+     */
+    @Test
+    public void redisTransactionTest2(){
+        redisService.redisTransactionTest();
     }
 
     @Test
@@ -285,6 +306,4 @@ public class SysTest {
         end = System.currentTimeMillis();
         System.out.println("注解动态生成sql耗时："+(end-start));
     }
-
-
 }
