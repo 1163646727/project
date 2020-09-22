@@ -3,6 +3,7 @@ package com.pri.mapper;
 import com.pri.entity.TestUser;
 import com.pri.entity.WxUser;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -32,6 +33,10 @@ public interface WxUserMapper {
 
     /**ChenQi 2019/5/7; 根据主键进行逻辑删除*/
     int deleteLoginById(Integer id);
+
+    /** 根据主键进行逻辑删除——注解版 ChenQi*/
+    @Update("update wx_user set state = 0 where id = #{id}")
+    public void deleteLoginById_2(Integer id);
 
     /**ChenQi 2019/5/7; 禁用、解禁 type:-1.禁用1.正常*/
     int lock(@Param( "id" ) Integer id,@Param( "type" ) Integer type);
