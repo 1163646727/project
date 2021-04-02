@@ -3,9 +3,6 @@ package com.pri.service;
 import com.pri.entity.TestUser;
 import com.pri.entity.WxUser;
 import com.pri.mapper.WxUserMapper;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,6 +91,10 @@ public class UserService {
      */
     public int testAddUserList(List<TestUser> testUsers){
         return wxUserMapper.insertUserList(testUsers);
+    }
+
+    public int testAddUser(TestUser testUser){
+        return wxUserMapper.insertUser(testUser);
     }
 
     //测试批量删除 ChenQi;

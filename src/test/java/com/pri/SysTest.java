@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pri.entity.SysUser;
 import com.pri.entity.TestUser;
 import com.pri.service.UserService;
+import com.pri.service.api.ApiSysService;
 import com.pri.service.test.RedisService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,12 +14,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
+
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Transaction;
 
 /**
  * @ClassName: SysTest
@@ -50,6 +52,8 @@ public class SysTest {
 
     @Autowired
     private StringRedisTemplate template;
+    @Autowired
+    private ApiSysService apiSysService;
 
     /**
      *@MethodName:  loginTest
@@ -218,6 +222,15 @@ public class SysTest {
          * */
     }
 
+    @Test
+    public void insert(){
+        TestUser testUser = new TestUser();
+        testUser.setName("test1");
+        testUser.setAge(21);
+        int i = userService.testAddUser(testUser);
+        System.out.println(i);
+    }
+
     /**
      *@MethodName:  addUserList
      *@Description: 测试批量插入
@@ -305,5 +318,22 @@ public class SysTest {
         userService.deleteLoginById_2(id);
         end = System.currentTimeMillis();
         System.out.println("注解动态生成sql耗时："+(end-start));
+    }
+
+    public void IDEATest(){
+        String name = "";
+        if (name != null) {
+
+        }
+        Boolean bo = false;
+
+        if(bo){
+
+        }
+
+        for (int i=0; i<10; i++) {
+
+        }
+
     }
 }

@@ -41,6 +41,8 @@ public interface WxUserMapper {
     /**ChenQi 2019/5/7; 禁用、解禁 type:-1.禁用1.正常*/
     int lock(@Param( "id" ) Integer id,@Param( "type" ) Integer type);
 
+    int insertUser(TestUser testUser);
+
     //测试批量插入 ChenQi;
     int insertUserList(@Param("testUsers") List<TestUser> testUsers);
 

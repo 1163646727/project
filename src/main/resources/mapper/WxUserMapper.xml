@@ -152,6 +152,11 @@
         and nid = #{nid,jdbcType=VARCHAR}
     </select>
 
+    <insert id="insertUser" parameterType="com.pri.entity.TestUser">
+      insert into user2 (userName,userAge) values
+        (#{item.name},#{item.age})
+    </insert>
+
     <insert id="insertUserList" parameterType="java.util.List">
         insert into user (userName,userAge) values
         <foreach collection="testUsers"  item="item" index="index" separator=",">
@@ -174,6 +179,7 @@
   </insert>
   <!--批量插入数据，数据存在时忽略，不存在时插入 ChenQi;-->
   <insert id="testAddUserListOrIgnore" parameterType="java.util.List">
+
     insert ignore user2 (userName,userSex,userAge) values
     <foreach collection="testUsers"  item="item" index="index" separator=",">
       (#{item.name},#{item.sex},#{item.age})
