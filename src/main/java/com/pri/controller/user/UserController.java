@@ -8,9 +8,7 @@ import com.pri.entity.WxUser;
 import com.pri.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -80,12 +78,14 @@ public class UserController {
      *@Author: ChenQi
      *@CreateDate: 2019/4/23 9:32
      */
-    @RequestMapping("/selectByPrimaryKey")
+    @PostMapping("/selectByPrimaryKey")
     @ResponseBody
-    public WxUser selectByPrimaryKey(int id){
+    public WxUser selectByPrimaryKey(@RequestParam(required = false,defaultValue = "0") int id,
+                                     @RequestParam(required = false) int... ids){
         System.out.println("根据主键查询用户");
-        WxUser user = null;
-        user = userService.selectByPrimaryKey(id);
+        WxUser user = new WxUser();
+        // user = userService.selectByPrimaryKey(id);
+        System.out.println("user:"+user);
         return user;
     }
 

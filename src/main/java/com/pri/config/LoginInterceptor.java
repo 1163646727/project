@@ -1,6 +1,5 @@
 package com.pri.config;
 
-import com.pri.entity.SysUser;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -29,14 +28,15 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         HttpSession session = httpServletRequest.getSession();
         // ChenQi 2019/5/5; 获取session中的sysUser
-        SysUser user = (SysUser)session.getAttribute( "sysUser" );
+        /*SysUser user = (SysUser)session.getAttribute( "sysUser" );
         if(user == null){
             // ChenQi 2019/5/5; 重定向到登陆页面
             httpServletResponse.sendRedirect(httpServletRequest.getContextPath()+"/");
             return false;
         }else{
             return true;
-        }
+        }*/
+        return true;
     }
 
      /**

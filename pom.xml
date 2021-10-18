@@ -140,6 +140,18 @@
 			<version>2.9.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.7.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.fenghaitao</groupId>
+			<artifactId>auto-excel</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
 	</dependencies>
 
 	

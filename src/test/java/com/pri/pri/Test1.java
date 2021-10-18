@@ -1,12 +1,17 @@
 package com.pri.pri;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.pri.service.test.TestService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * className: Test1 <BR>
@@ -26,5 +31,14 @@ public class Test1 {
     @Test
     public void testVaule(){
         testService.testVaule ();
+    }
+
+    @Test
+    public void testCollection(){
+        List list = null;
+        System.out.println("-----------------------------collection");
+        System.out.println("-----------------------------"+ CollectionUtils.isEmpty(new ArrayList<>()));
+        System.out.println("-----------------------------"+ CollectionUtils.isEmpty(list));
+        System.out.println("=====================:"+ CollectionUtil.isEmpty(list));
     }
 }

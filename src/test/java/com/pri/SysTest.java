@@ -320,20 +320,45 @@ public class SysTest {
         System.out.println("注解动态生成sql耗时："+(end-start));
     }
 
+    @Test
     public void IDEATest(){
-        String name = "";
-        if (name != null) {
+        String str = "abcde";
+        System.out.println(str.charAt(0));
+        System.out.println(System.identityHashCode(str));
+        System.out.println(str.replace("a","s"));
+        System.out.println(System.identityHashCode(str));
+        System.out.println(str.charAt(0));
 
-        }
-        Boolean bo = false;
+    }
+    @Test
+    public void test0923(){
+       /* TestUser testUser = new TestUser();
+        testUser.setName("test1");
+        testUser.setSex("男");
+        testUser.setAge(22);
+        System.out.println("-----替换前:"+testUser.getName());
+        exchange(testUser);
+        System.out.println("-----替换前:"+testUser.getName());*/
 
-        if(bo){
+        Integer i1 = new Integer(10);
+        Integer i2 = new Integer(20);
+        System.out.println("替换前，n1: "+i1+",n2: "+i2);
+        exchangeNum(i1,i2);
+        System.out.println("替换后，n1: "+i1+",n2: "+i2);
 
-        }
+    }
 
-        for (int i=0; i<10; i++) {
+    public void exchange(TestUser item){
 
-        }
-
+        item.setName("lisi");
+        System.out.println(item);
+    }
+    public void exchangeNum(Integer n1,Integer n2){
+        System.out.println("-----替换前，n1: "+n1+",n2: "+n2);
+        Integer n = new Integer(0);
+        n = n1;
+        n1 = n2;
+        n2 = n;
+        System.out.println("-----替换后，n1: "+n1+",n2: "+n2);
     }
 }

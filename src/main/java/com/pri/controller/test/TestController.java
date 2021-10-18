@@ -1,6 +1,6 @@
 package com.pri.controller.test;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
     //@Value("${http_url}")
-    private String httpUrl;
+    private String httpUrl="127.0.0.1";
 
     @ResponseBody
-    @RequestMapping("/testVaule")
+    @PostMapping("/testVaule")
     public String testVaule(){
         System.out.println("httpUrl:"+httpUrl);
         return httpUrl;
